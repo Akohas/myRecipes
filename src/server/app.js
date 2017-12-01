@@ -1,9 +1,8 @@
 const Koa = require('koa');
-const Router = require('koa-router');
+
 
 const app = new Koa();
-const router = new Router();
-
+const router = require('./routes');
 const views = require('koa-views');
 const json = require('koa-json');
 const onerror = require('koa-onerror');
@@ -30,8 +29,14 @@ app
   .use(logger())
   .use(koaStatic(`${root}/static`))
   .use(views(`${root}/views`, {
-    options: { settings: { views: path.join(__dirname, 'views') } },
-    map: { pug: 'pug' },
+    options: {
+      settings: {
+        views: path.join(__dirname, 'views'),
+      },
+    },
+    map: {
+      pug: 'pug',
+    },
     extension: 'pug',
   }))
   .use(router.routes())
@@ -45,10 +50,6 @@ app.use(async (ctx, next) => {
   console.log(`${ctx.method} ${ctx.url} - ${ms}`);
 });
 
-// render index page
-router.get('/', async (ctx, next) => {
-  await ctx.render('index');
-});
 
 app.on('error', async (err, ctx) => {
   console.log(err);

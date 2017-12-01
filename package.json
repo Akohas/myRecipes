@@ -51,10 +51,13 @@
     "whatwg-fetch": "2.0.3"
   },
   "scripts": {
-    "start": "NODE_ENV='development' webpack-dev-server --watch --hot --inline && node index.js",
+    "start": "npm run clientStart && npm run serverStart",
+    "serverStart": "node index.js",
+    "clientStart": "NODE_ENV='development' webpack-dev-server --watch --hot --inline",
     "build": "NODE_ENV='production' webpack",
     "test": "node scripts/client/test.js --env=jsdom",
     "flow": "flow"
+
   },
   "jest": {
     "collectCoverageFrom": [
