@@ -13,13 +13,13 @@ const RecipeSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  author: {
-    type: String,
-    required: true,
-  },
+  // author: {
+  //   type: String,
+  //   required: true,
+  // },
   description: {
     type: String,
-    default: '',
+    required: true,
   },
 
 });
