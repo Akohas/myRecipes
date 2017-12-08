@@ -37,11 +37,23 @@ let rules = [
   },
   {
     test: /\.css$/,
+    include: [
+      path.join(__dirname, 'node_modules/react-toolbox'),
+    ],
+    use: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
+      fallback: 'style-loader',
+      use: 'css-loader?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
+    })),
+  },
+  {
+    test: /\.css$/,
+    include: [
+      path.join(__dirname, 'src')
+    ],
     use: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
       fallback: 'style-loader',
       use: 'css-loader'
-      //use: 'css-loader?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
-    })),
+     })),
   },
   {
     test: /\.svg$/,

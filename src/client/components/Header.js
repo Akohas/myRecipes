@@ -1,5 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
+import { AppBar } from 'react-toolbox/lib/app_bar';
+
 
 const Logo = styled.div`
     color: #adadad;
@@ -9,12 +11,6 @@ const Logo = styled.div`
 const Menu = styled.div`
     display: inline-flex;
     justify-content: space-between;
-`
-const Header = styled.header`
-    padding: 20px;
-    background: #3030b4;
-    box-shadow: -1px 3px 20px rgba(0, 0, 0, 0.5);
-    
 `
 
 const HeaderContent = styled.div`
@@ -32,19 +28,17 @@ const MenuItem = styled.a`
 class HeaderComponent extends React.Component{
     render(){
         return (
-            <Header>
-                <HeaderContent className="wrapper">
-                    <Logo>Logo</Logo>
-                    <Menu>
-                        <MenuItem href="#">Item</MenuItem>
-                        <MenuItem href="#">Item</MenuItem>
-                        <MenuItem href="#">Item</MenuItem>
-                        <MenuItem href="#">Item</MenuItem>
-                    </Menu>
-                    </HeaderContent>
-            </Header>
-            
-
+                <AppBar>
+                    <HeaderContent className="wrapper">
+                        <Logo>Logo</Logo>
+                        <Menu>
+                            <MenuItem href="#">Item</MenuItem>
+                            <MenuItem href="#">Item</MenuItem>
+                            <MenuItem href="#">Item</MenuItem>
+                            <MenuItem href="#">Item</MenuItem>
+                        </Menu>
+                        </HeaderContent>
+                </AppBar>
         )
     }
 
