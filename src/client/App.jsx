@@ -1,16 +1,21 @@
 // @flow
 
 import React from 'react';
-import './App.css';
-import styled from 'styled-components'
+import {
+  Provider
+} from 'react-redux'
 
-const Main = styled.div`
-  background: blue;
-`
+import Header from './components/Header'
+import store from './redux/store.js'
+
 function App() {
   return (
-    <Main>main</Main>
-  );
+    < Provider store = {store}> 
+      <div>
+        <Header/>
+      </div>
+    </Provider>
+  )
 }
 
 export default App;

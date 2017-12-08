@@ -13,12 +13,7 @@ const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 
 let plugins = [
   new SpriteLoaderPlugin(),
-  new ExtractTextPlugin('style.css'),
-  new webpack.DefinePlugin({
-    'process.env.NODE_ENV': JSON.stringify('production')
-  })
-
-
+  new ExtractTextPlugin('style.css')
 ];
 let rules = [
   {
@@ -45,6 +40,7 @@ let rules = [
     use: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
       fallback: 'style-loader',
       use: 'css-loader'
+      //use: 'css-loader?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
     })),
   },
   {

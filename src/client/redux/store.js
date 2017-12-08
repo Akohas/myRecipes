@@ -5,8 +5,7 @@ import {
 import reducers from './reducers';
 
 const store = createStore(combineReducers(reducers), {
-    recipes: [],
-    user: {}
+    recipes: []
 });
 
 export default store;
