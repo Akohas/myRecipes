@@ -1,44 +1,39 @@
 import React from 'react'
 import styled from 'styled-components'
-import { AppBar } from 'react-toolbox/lib/app_bar';
 
 
 const Logo = styled.div`
     color: #adadad;
     font-size: 30px;
 `;
-
-const Menu = styled.div`
-    display: inline-flex;
-    justify-content: space-between;
-`
-
 const HeaderContent = styled.div`
     display: flex;
     justify-content: space-between;
     
+`;
+const Header = styled.div`
+  background: #0277bd;
+  box-shadow: 0 3px 6px 0px rgba(0, 0, 0, 0.24);
+  padding: 15px 0;
 `
-const MenuItem = styled.a`
-    color: #fff;
-    text-decoration: none;
-    padding: 5px 15px;
-`
-
 
 class HeaderComponent extends React.Component{
+    constructor(){
+        super();
+        this.state =  {
+            inverseIndex: 0
+        }
+    }
+    handleInverseTabChange = (index) => {
+        this.setState({inverseIndex: index});
+    };
     render(){
         return (
-                <AppBar>
-                    <HeaderContent className="wrapper">
-                        <Logo>Logo</Logo>
-                        <Menu>
-                            <MenuItem href="#">Item</MenuItem>
-                            <MenuItem href="#">Item</MenuItem>
-                            <MenuItem href="#">Item</MenuItem>
-                            <MenuItem href="#">Item</MenuItem>
-                        </Menu>
-                        </HeaderContent>
-                </AppBar>
+          <Header>
+            <HeaderContent className="wrapper">
+              <Logo>Logo</Logo>
+            </HeaderContent>
+          </Header>
         )
     }
 
