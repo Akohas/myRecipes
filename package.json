@@ -60,6 +60,7 @@
     "serverStart:dev": "nodemon --harmony index.js",
     "clientStart": "NODE_ENV='development' webpack-dev-server --watch --hot --inline",
     "build": "NODE_ENV='production' webpack",
+    "apidoc": "apidoc -i src/server/routes -o doc/",
     "test": "node scripts/client/test.js --env=jsdom",
     "flow": "flow"
   },

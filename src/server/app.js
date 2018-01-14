@@ -28,6 +28,7 @@ app
   .use(json())
   .use(logger())
   .use(koaStatic(`${root}/static`))
+  .use(koaStatic(`${root}/doc`))
   .use(views(`${root}/views`, {
     options: {
       settings: {
@@ -40,7 +41,8 @@ app
     extension: 'pug',
   }))
   .use(router.routes())
-  .use(router.allowedMethods());
+  .use(router.allowedMethods())
+  .use(koaStatic(`${root}/apidoc`));
 
 // logger
 app.use(async (ctx, next) => {
