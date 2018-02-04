@@ -1,5 +1,5 @@
 const Koa = require('koa');
-
+const passport = require('koa-passport');
 
 const app = new Koa();
 const router = require('./routes');
@@ -40,6 +40,7 @@ app
     },
     extension: 'pug',
   }))
+  .use(passport.initialize())
   .use(router.routes())
   .use(router.allowedMethods())
   .use(koaStatic(`${root}/apidoc`));
