@@ -3,8 +3,8 @@ const { Strategy: LocalStrategy } = require('passport-local');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const { secret } = require('../../../config/server');
-const JwtStrategy = require('passport-jwt').Strategy;
-const ExtractJwt = require('passport-jwt').ExtractJwt;
+
+const { ExtractJwt } = require('passport-jwt');
 
 function generateJWT(username) {
   const today = new Date();
@@ -19,12 +19,12 @@ function generateJWT(username) {
 
 passport.use(new LocalStrategy(
   {
-    usernameField: 'email',
+    usernameField: 'username',
     passwordField: 'password',
     session: false,
   },
-  ((email, password, done) => {
-    User.findOne({ email }, (err, user) => {
+  ((username, password, done) => {
+    User.findOne({ username }, (err, user) => {
       if (err) {
         return done(err);
       }
@@ -36,40 +36,54 @@ passport.use(new LocalStrategy(
     });
   }),
 ));
+
 const jwtOptions = {
-  jwtFromRequest: ExtractJwt.fromAuthHeader(),
-  secretOrKey: jwtsecret,
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  secretOrKey: secret,
 };
 
-passport.use(new JwtStrategy(jwtOptions, ((payload, done) => {
-  User.findById(payload.id, (err, user) => {
-    if (err) {
-      return done(err);
-    }
-    if (user) {
-      done(null, user);
-    } else {
-      done(null, false);
-    }
-  });
-})));
 
 const localAuthHandler = (ctx, next) => passport.authenticate(
   'local',
   async (err, user, info) => {
     let token;
     if (user === false) {
-      ctx.status = 401;
-      ctx.body = info.message;
-    } else {
-      try {
-        token = await generateJWT(user.username);
-      } catch (e) {
-        ctx.throw(500, e);
-      }
+      ctx.throw(info.message, 401);
     }
-    return { token };
+    try {
+      token = await generateJWT(user.username);
+    } catch (error) {
+      ctx.throw(error, 500);
+    }
+
+    ctx.status = 200;
+    ctx.body = { token };
   },
 )(ctx, next);
 
-module.exports = localAuthHandler;
+
+const registrationController = async (body) => {
+  const { username, password } = body;
+  const user = await User.findOne({ username });
+  let token;
+  if (user) {
+    return {
+      error: 'User already exists',
+      status: 401,
+    };
+  }
+  try {
+    token = await generateJWT(username);
+  } catch (e) {
+    return {
+      error: e,
+      status: 500,
+    };
+  }
+
+  const newuser = new User({ username, password });
+
+  await newuser.save();
+  return { token };
+};
+module.exports = { localAuthHandler, registrationController };
